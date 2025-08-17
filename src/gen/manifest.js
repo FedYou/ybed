@@ -1,24 +1,24 @@
-import { PROJECT_TYPES } from "../enum.js";
+import { PROJECT_TYPES } from '../enum.js'
 
 function addScriptDependencies(target, dependencies) {
-  dependencies.forEach((e) => target.push(e));
+  dependencies.forEach((e) => target.push(e))
 }
 
 export default (config) => {
-  const manifest = {};
+  const manifest = {}
   const MANIFEST = {
-    format_version: 2,
-  };
+    format_version: 2
+  }
 
   const HEADER = {
-    description: "pack.description",
-    name: "pack.name",
+    description: 'pack.description',
+    name: 'pack.name',
     min_engine_version: config.project.minEngineVersion,
-    version: config.project.version,
-  };
+    version: config.project.version
+  }
 
-  const PROJECT_TYPE = config.project.type;
-  const version = config.project.version;
+  const PROJECT_TYPE = config.project.type
+  const version = config.project.version
 
   if (
     PROJECT_TYPE === PROJECT_TYPES.ADD_ON ||
@@ -26,11 +26,11 @@ export default (config) => {
     PROJECT_TYPE === PROJECT_TYPES.SCRIPT ||
     PROJECT_TYPE === PROJECT_TYPES.DATA
   ) {
-    manifest.behavior = { ...MANIFEST };
-    manifest.behavior.header = { ...HEADER };
-    manifest.behavior.metadata = { authors: config.project.authors };
-    manifest.behavior.modules = [];
-    manifest.behavior.dependencies = [];
+    manifest.behavior = { ...MANIFEST }
+    manifest.behavior.header = { ...HEADER }
+    manifest.behavior.metadata = { authors: config.project.authors }
+    manifest.behavior.modules = []
+    manifest.behavior.dependencies = []
   }
 
   if (
@@ -38,11 +38,11 @@ export default (config) => {
     PROJECT_TYPE === PROJECT_TYPES.ADD_ON_SCRIPT ||
     PROJECT_TYPE === PROJECT_TYPES.RESOURCES
   ) {
-    manifest.resource = { ...MANIFEST };
-    manifest.resource.header = { ...HEADER };
-    manifest.resource.metadata = { authors: config.project.authors };
-    manifest.resource.modules = [];
-    manifest.resource.dependencies = [];
+    manifest.resource = { ...MANIFEST }
+    manifest.resource.header = { ...HEADER }
+    manifest.resource.metadata = { authors: config.project.authors }
+    manifest.resource.modules = []
+    manifest.resource.dependencies = []
   }
 
   //
@@ -56,9 +56,9 @@ export default (config) => {
     PROJECT_TYPE === PROJECT_TYPES.RESOURCES
   ) {
     manifest.resource.modules.push({
-      type: "resources",
-      version,
-    });
+      type: 'resources',
+      version
+    })
   }
 
   // Module Behavior
@@ -68,22 +68,19 @@ export default (config) => {
     PROJECT_TYPE === PROJECT_TYPES.DATA
   ) {
     manifest.behavior.modules.push({
-      type: "data",
-      version,
-    });
+      type: 'data',
+      version
+    })
   }
 
   // Module Script
-  if (
-    PROJECT_TYPE === PROJECT_TYPES.ADD_ON_SCRIPT ||
-    PROJECT_TYPE === PROJECT_TYPES.SCRIPT
-  ) {
+  if (PROJECT_TYPE === PROJECT_TYPES.ADD_ON_SCRIPT || PROJECT_TYPE === PROJECT_TYPES.SCRIPT) {
     manifest.behavior.modules.push({
-      type: "script",
+      type: 'script',
       language: config.scripts.language,
       entry: config.scripts.entry,
-      version,
-    });
+      version
+    })
   }
 
   //
@@ -91,53 +88,41 @@ export default (config) => {
   //
 
   // >>Add the necessary data to create a manfest for add-on<<
-  if (
-    PROJECT_TYPE === PROJECT_TYPES.ADD_ON ||
-    PROJECT_TYPE === PROJECT_TYPES.ADD_ON_SCRIPT
-  ) {
-    manifest.resource.header.uuid = config.uuid[0];
-    manifest.resource.modules[0].uuid = config.uuid[1];
-    manifest.behavior.header.uuid = config.uuid[2];
-    manifest.behavior.modules[0].uuid = config.uuid[3];
+  if (PROJECT_TYPE === PROJECT_TYPES.ADD_ON || PROJECT_TYPE === PROJECT_TYPES.ADD_ON_SCRIPT) {
+    manifest.resource.header.uuid = config.uuid[0]
+    manifest.resource.modules[0].uuid = config.uuid[1]
+    manifest.behavior.header.uuid = config.uuid[2]
+    manifest.behavior.modules[0].uuid = config.uuid[3]
 
     // Dependecie Resource
     manifest.resource.dependencies.push({
       uuid: config.uuid[2],
-      version,
-    });
+      version
+    })
 
     // Dependecie Behavior
 
     manifest.behavior.dependencies.push({
       uuid: config.uuid[0],
-      version,
-    });
+      version
+    })
   }
   // >>Add the necessary data to create a manfest for script add-on<<
   if (PROJECT_TYPE === PROJECT_TYPES.ADD_ON_SCRIPT) {
-    manifest.behavior.modules[1].uuid = config.uuid[4];
+    manifest.behavior.modules[1].uuid = config.uuid[4]
   }
   // >>Add the necessary data to create a manfest for resource<<
   if (PROJECT_TYPE === PROJECT_TYPES.RESOURCES) {
-    manifest.resource.header.uuid = config.uuid[0];
-    manifest.resource.modules[0].uuid = config.uuid[1];
+    manifest.resource.header.uuid = config.uuid[0]
+    manifest.resource.modules[0].uuid = config.uuid[1]
   }
   // >>Add the necessary data to create a manfest for behavior or script<<
-  if (
-    PROJECT_TYPE === PROJECT_TYPES.DATA ||
-    PROJECT_TYPE === PROJECT_TYPES.SCRIPT
-  ) {
-    manifest.behavior.header.uuid = config.uuid[0];
-    manifest.behavior.modules[0].uuid = config.uuid[1];
+  if (PROJECT_TYPE === PROJECT_TYPES.DATA || PROJECT_TYPE === PROJECT_TYPES.SCRIPT) {
+    manifest.behavior.header.uuid = config.uuid[0]
+    manifest.behavior.modules[0].uuid = config.uuid[1]
   }
-  if (
-    PROJECT_TYPE === PROJECT_TYPES.ADD_ON_SCRIPT ||
-    PROJECT_TYPE === PROJECT_TYPES.SCRIPT
-  ) {
-    addScriptDependencies(
-      manifest.behavior.dependencies,
-      config.scripts.dependencies
-    );
+  if (PROJECT_TYPE === PROJECT_TYPES.ADD_ON_SCRIPT || PROJECT_TYPE === PROJECT_TYPES.SCRIPT) {
+    addScriptDependencies(manifest.behavior.dependencies, config.scripts.dependencies)
   }
-  return manifest;
-};
+  return manifest
+}

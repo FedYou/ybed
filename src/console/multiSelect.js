@@ -1,24 +1,24 @@
-import enquirer from "enquirer";
+import enquirer from 'enquirer'
 
 export default async ({
-  message = "",
+  message = '',
   choices = [],
   retry = false,
-  retryMassage = "Please select at least one option.",
+  retryMassage = 'Please select at least one option.'
 }) => {
   const prompt = await enquirer.prompt({
-    type: "multiselect",
-    name: "value",
+    type: 'multiselect',
+    name: 'value',
     message,
     choices,
     validate: (value) => {
       if (retry) {
         if (value.length === 0) {
-          return retryMassage;
+          return retryMassage
         }
       }
-      return true;
-    },
-  });
-  return prompt.value;
-};
+      return true
+    }
+  })
+  return prompt.value
+}

@@ -1,12 +1,12 @@
-import compile from "../compile/index.js";
-import path from "path";
+import compile from '../compile/index.js'
+import path from 'path'
 export default (folderPath) => {
-  let completePath;
+  let completePath
 
   if (path.isAbsolute(folderPath)) {
-    completePath = folderPath;
+    completePath = folderPath
   } else {
-    completePath = path.resolve(folderPath);
+    completePath = path.resolve(folderPath)
   }
-  compile({ packPath: completePath });
-};
+  compile({ packPath: completePath })
+}

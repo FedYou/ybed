@@ -1,5 +1,5 @@
-import esbuild from "esbuild";
-import { DEPENDECIES } from "../enum.js";
+import esbuild from 'esbuild'
+import { DEPENDECIES } from '../enum.js'
 export default async (entry, outfile) => {
   await esbuild.build({
     entryPoints: [entry],
@@ -7,6 +7,6 @@ export default async (entry, outfile) => {
     minify: true,
     outfile,
     external: DEPENDECIES,
-    format: "esm",
-  });
-};
+    format: 'esm'
+  })
+}

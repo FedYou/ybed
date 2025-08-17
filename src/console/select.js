@@ -1,11 +1,11 @@
-import enquirer from "enquirer";
-export default async ({ message = "", choices = [] }) => {
+import enquirer from 'enquirer'
+export default async ({ message = '', choices = [] }) => {
   const prompt = await enquirer.prompt({
-    type: "select",
-    prefix: "~$".blue,
-    name: "value",
+    type: 'select',
+    prefix: '~$'.blue,
+    name: 'value',
     message,
-    choices,
-  });
-  return prompt.value;
-};
+    choices
+  })
+  return prompt.value
+}
