@@ -1,10 +1,7 @@
 import readline from 'readline'
 import face from './face.js'
-function exit() {
-  process.stdout.write('\x1b[?25h')
-  process.exit(0)
-}
-class create {
+
+class Interface {
   #rl
   constructor() {
     this.#rl = readline.createInterface({
@@ -13,10 +10,13 @@ class create {
     })
     this.#rl.pause()
     process.stdout.write('\x1b[?25l')
-    process.on('exit', () => exit())
-    process.on('SIGINT', () => exit())
+    process.on('exit', () => this.#exit())
+    process.on('SIGINT', () => this.#exit())
   }
-
+  #exit() {
+    process.stdout.write('\x1b[?25h')
+    process.exit(0)
+  }
   message(...message) {
     console.log(message.join('\t'))
   }
@@ -49,6 +49,5 @@ class create {
   }
 }
 
-export default () => {
-  return new create()
-}
+export { Interface }
+export default Interface

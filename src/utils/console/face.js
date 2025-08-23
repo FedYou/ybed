@@ -1,16 +1,14 @@
 import 'colors'
-import faces from '../../../json/faces.json' assert { type: 'json' }
+import faces from '../../../json/faces.json' with { type: 'json' }
 
-function randomFace() {
-  const random = Math.round(Math.random() * 1)
-  const index = Math.round(Math.random() * 3)
-  if (random === 0) {
-    return faces.happy[index]
-  } else {
-    return faces.boring[index]
-  }
+function random() {
+  const keys = Object.keys(faces)
+  const random = Math.floor(Math.random() * keys.length)
+  const face = faces[keys[random]]
+  const index = Math.floor(Math.random() * face.length)
+  return face[index]
 }
 
 export default (message) => {
-  console.log(randomFace().bold, message.bold)
+  console.log(random().bold, message.bold)
 }
